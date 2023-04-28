@@ -18,7 +18,7 @@ def sisr_vrp(data,
              final_T=1.0,
              c_bar=10.0,
              L_max=10.0,
-             m_alpha=0.01,
+             m_alpha=0.5,
              obj_n_routes=None,
              init_route=None,
              verbose_step=None,
@@ -93,7 +93,8 @@ def sisr_vrp(data,
         l_s_max = min(L_max, np.mean([len(x) for x in last_routes]))
         k_s_max = 4.0*c_bar/(1.0+l_s_max)-1.0
         k_s = int(np.random.random()*k_s_max+1.0)
-        c_seed = int(np.random.random()*len(data))
+        # c_seed = int(np.random.random()*len(data))
+        c_seed = np.random.choice(len(data) - 1) + 1
         if in_absents is None:
             absents = []
         else:
@@ -224,7 +225,7 @@ def sisr_vrp(data,
     neighbours = get_neighbours(distance_matrix)
     print(len(best_routes), best_distance)
     
-#     if n_iter_fleet is None: n_iter_fleet=int(max(n_iter*0.1, 1))
+    if n_iter_fleet is None: n_iter_fleet = int(max(n_iter*0.1, 1))
     if (n_iter_fleet is not None) and (n_iter_fleet > 0):
         last_routes = fleet_min(n_iter_fleet, data, distance_matrix, neighbours, best_routes, verbose_step)
         last_distance = get_routes_distance(distance_matrix, last_routes)
@@ -273,13 +274,13 @@ def sisr_cvrp(data,
               final_T=1.0,
               c_bar=10.0,
               L_max=10.0,
-              m_alpha=0.01,
+              m_alpha=0.5,
               obj_n_routes=None,
               init_route=None,
               verbose_step=None,
               test_obj=None):
     """
-    data: An numpy array with a shape of (N, 3), where N is the number of customers.
+    data: An numpy array with a shape of (N, 6), where N is the number of customers.
           Each column represents x coord, y coord, demand, ready time, due time, and
           service time.
     """
@@ -348,7 +349,8 @@ def sisr_cvrp(data,
         l_s_max = min(L_max, np.mean([len(x) for x in last_routes]))
         k_s_max = 4.0*c_bar/(1.0+l_s_max)-1.0
         k_s = int(np.random.random()*k_s_max+1.0)
-        c_seed = int(np.random.random()*len(data))
+        # c_seed = int(np.random.random()*len(data))
+        c_seed = np.random.choice(len(data)-1) + 1
         if in_absents is None:
             absents = []
         else:
@@ -451,7 +453,7 @@ def sisr_cvrp(data,
     neighbours = get_neighbours(distance_matrix)
     print(len(best_routes), best_distance)
     
-#     if n_iter_fleet is None: n_iter_fleet=int(max(n_iter*0.1, 1))
+    if n_iter_fleet is None: n_iter_fleet=int(max(n_iter*0.1, 1))
     if (n_iter_fleet is not None) and (n_iter_fleet > 0):
         last_routes = fleet_min(n_iter_fleet, data, distance_matrix, neighbours, best_routes, verbose_step)
         last_distance = get_routes_distance(distance_matrix, last_routes)

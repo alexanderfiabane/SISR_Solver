@@ -2,7 +2,7 @@ import numpy as np
 from iter_solver import calculate_distance_matrix, auto_solver, plot_route
 
 coords = []
-for _ in range(50):
+for _ in range(4):
     coords.append(np.random.random(2))
 coords = np.array(coords)
 
